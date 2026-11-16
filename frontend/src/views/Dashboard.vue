@@ -237,8 +237,8 @@ async function refreshAll(): Promise<void> {
       </section>
 
       <!-- 随机笔记 + 快捷记录 -->
-      <section class="grid items-start gap-4 lg:grid-cols-2">
-        <article class="surface p-5">
+      <section class="grid items-stretch gap-4 lg:grid-cols-2">
+        <article class="surface flex h-full flex-col p-5">
         <div class="mb-3 flex items-center justify-between">
           <h2 class="text-[14px] font-medium text-ink">随机笔记</h2>
           <button type="button" class="btn-quiet !py-1" @click="refreshAll">
@@ -250,7 +250,7 @@ async function refreshAll(): Promise<void> {
         <button
           v-if="summary.random_note"
           type="button"
-          class="w-full cursor-pointer rounded-xl border border-line bg-paper p-4 text-left transition hover:border-clay-300 hover:shadow-soft"
+          class="flex w-full flex-1 cursor-pointer flex-col items-start rounded-xl border border-line bg-paper p-4 text-left transition hover:border-clay-300 hover:shadow-soft"
           @click="previewOpen = true"
         >
           <div class="flex flex-wrap items-center gap-2">
@@ -279,9 +279,9 @@ async function refreshAll(): Promise<void> {
         </EmptyState>
         </article>
 
-        <article class="surface p-5">
+        <article class="surface flex h-full flex-col p-5">
         <h2 class="mb-4 text-[14px] font-medium text-ink">快捷记录</h2>
-        <div class="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+        <div class="grid flex-1 content-center grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-7">
           <button
             v-for="action in quickActions"
             :key="action.kind"

@@ -341,12 +341,8 @@ const tabTitle = computed(
 
     <!-- 记录列表 -->
     <section class="mt-5">
-      <div class="mb-3 flex flex-wrap items-center gap-3">
+      <div class="mb-3">
         <SegmentedControl :model-value="tab" :options="tabOptions" @update:model-value="setTab" />
-        <button type="button" class="btn-ghost ml-auto !py-1.5" @click="openCreate">
-          <Plus :size="14" :stroke-width="1.5" />
-          新增{{ tabTitle.slice(0, 2) }}
-        </button>
       </div>
 
       <div v-if="summaryQuery.isPending.value" class="surface divide-y divide-line">
@@ -405,13 +401,8 @@ const tabTitle = computed(
       <EmptyState
         v-else
         :title="`这个区间还没有${tabTitle}`"
-        hint="点右上角新增，或者在首页快捷入口记一条。"
-      >
-        <button type="button" class="btn-ghost" @click="openCreate">
-          <Plus :size="14" :stroke-width="1.5" />
-          新增{{ tabTitle.slice(0, 2) }}
-        </button>
-      </EmptyState>
+        hint="点右上角「新增记录」，或者在首页快捷入口记一条。"
+      />
     </section>
 
     <HealthRecordDialog

@@ -296,10 +296,7 @@ watch(
               @click="selectNote(note.id)"
             >
               <p class="truncate text-[13px] font-medium text-ink">{{ note.title || '无标题' }}</p>
-              <p class="mt-1 line-clamp-2 text-[11.5px] leading-relaxed text-ink-muted">
-                {{ note.excerpt || '（空白笔记）' }}
-              </p>
-              <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
+              <div class="mt-2 flex flex-wrap items-center gap-1.5">
                 <span
                   v-for="tag in note.tags"
                   :key="tag.id"

@@ -5,8 +5,10 @@ import {
   ArrowLeftRight,
   ArrowUpRight,
   Banknote,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   CreditCard,
   Landmark,
   PiggyBank,
@@ -41,6 +43,7 @@ const cursor = ref({ year: initialYear, month: initialMonth })
 
 const accountFilter = ref<number | null>(null)
 const categoryFilter = ref<number | null>(null)
+const accountsOpen = ref(false)
 
 const txDialogOpen = ref(false)
 const accountDialogOpen = ref(false)
@@ -322,53 +325,6 @@ function amountClass(tx: Transaction): string {
         </div>
       </section>
 
-      <!-- 账户 -->
-      <section class="mt-5">
-        <div class="no-scrollbar flex gap-3 overflow-x-auto pb-1">
-          <button
-            v-for="account in accounts"
-            :key="account.id"
-            type="button"
-            class="surface surface-hover min-w-[190px] shrink-0 cursor-pointer p-4 text-left"
-            :class="accountFilter === account.id ? '!border-clay-300' : ''"
-            @click="accountFilter = accountFilter === account.id ? null : account.id"
-            @dblclick="openEditAccount(account)"
-          >
-            <div class="flex items-center gap-2.5">
-              <span
-                class="flex h-8 w-8 items-center justify-center rounded-xl"
-                :style="{
-                  backgroundColor: `${account.color ?? '#B08968'}1F`,
-                  color: account.color ?? '#B08968',
-                }"
-              >
-                <component :is="accountIcon(account)" :size="16" :stroke-width="1.5" />
-              </span>
-              <div class="min-w-0">
-                <p class="truncate text-[12.5px] text-ink">{{ account.name }}</p>
-                <p
-                  class="num text-[11px]"
-                  :class="account.account_type === 'loan' ? 'text-clay-600' : 'text-ink-faint'"
-                >
-                  {{ account.account_type === 'loan' ? '待还 ' : ''
-                  }}{{ formatMoney(account.balance ?? account.initial_balance) }}
-                </p>
-              </div>
-            </div>
-            <p class="mt-2 text-[10.5px] text-ink-faint">双击编辑</p>
-          </button>
-
-          <button
-            type="button"
-            class="flex min-w-[130px] shrink-0 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border border-dashed border-line bg-transparent px-4 py-4 text-[12px] text-ink-faint transition hover:border-clay-300 hover:text-clay-700"
-            @click="openCreateAccount"
-          >
-            <Plus :size="16" :stroke-width="1.5" />
-            添加账户
-          </button>
-        </div>
-      </section>
-
       <!-- 图表 -->
       <section class="mt-5 grid gap-4 lg:grid-cols-2">
         <article class="surface p-4">
@@ -512,6 +468,70 @@ function amountClass(tx: Transaction): string {
         >
           <button type="button" class="btn-ghost" @click="txDialogOpen = true">记一笔</button>
         </EmptyState>
+      </section>
+
+      <!-- 账户信息：底部折叠，默认收起 -->
+      <section class="mt-6">
+        <button
+          type="button"
+          class="flex w-full cursor-pointer items-center justify-between border-t border-line pt-4 text-left"
+          :aria-expanded="accountsOpen"
+          @click="accountsOpen = !accountsOpen"
+        >
+          <span class="flex items-center gap-2 text-[13.5px] font-medium text-ink">
+            账户信息
+            <span class="num text-[11px] text-ink-faint">{{ accounts.length }}</span>
+          </span>
+          <span class="flex items-center gap-1 text-[11.5px] text-ink-muted">
+            {{ accountsOpen ? '收起' : '展开' }}
+            <ChevronUp v-if="accountsOpen" :size="14" :stroke-width="1.5" />
+            <ChevronDown v-else :size="14" :stroke-width="1.5" />
+          </span>
+        </button>
+
+        <div v-show="accountsOpen" class="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-1">
+          <button
+            v-for="account in accounts"
+            :key="account.id"
+            type="button"
+            class="surface surface-hover min-w-[190px] shrink-0 cursor-pointer p-4 text-left"
+            :class="accountFilter === account.id ? '!border-clay-300' : ''"
+            @click="accountFilter = accountFilter === account.id ? null : account.id"
+            @dblclick="openEditAccount(account)"
+          >
+            <div class="flex items-center gap-2.5">
+              <span
+                class="flex h-8 w-8 items-center justify-center rounded-xl"
+                :style="{
+                  backgroundColor: `${account.color ?? '#B08968'}1F`,
+                  color: account.color ?? '#B08968',
+                }"
+              >
+                <component :is="accountIcon(account)" :size="16" :stroke-width="1.5" />
+              </span>
+              <div class="min-w-0">
+                <p class="truncate text-[12.5px] text-ink">{{ account.name }}</p>
+                <p
+                  class="num text-[11px]"
+                  :class="account.account_type === 'loan' ? 'text-clay-600' : 'text-ink-faint'"
+                >
+                  {{ account.account_type === 'loan' ? '待还 ' : ''
+                  }}{{ formatMoney(account.balance ?? account.initial_balance) }}
+                </p>
+              </div>
+            </div>
+            <p class="mt-2 text-[10.5px] text-ink-faint">双击编辑</p>
+          </button>
+
+          <button
+            type="button"
+            class="flex min-w-[130px] shrink-0 cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border border-dashed border-line bg-transparent px-4 py-4 text-[12px] text-ink-faint transition hover:border-clay-300 hover:text-clay-700"
+            @click="openCreateAccount"
+          >
+            <Plus :size="16" :stroke-width="1.5" />
+            添加账户
+          </button>
+        </div>
       </section>
     </template>
 
