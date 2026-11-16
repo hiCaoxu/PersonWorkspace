@@ -1,0 +1,46 @@
+[project]
+name = "personal-workbench-api"
+version = "0.1.0"
+description = "个人工作台后端"
+requires-python = ">=3.11.9,<3.12"
+dependencies = [
+    "fastapi==0.115.6",
+    "uvicorn[standard]==0.34.0",
+    "sqlalchemy[asyncio]==2.0.36",
+    "asyncpg==0.30.0",
+    "alembic==1.14.0",
+    "pydantic==2.10.3",
+    "pydantic-settings==2.7.0",
+    "python-multipart==0.0.20",
+    "pyjwt==2.10.1",
+    "argon2-cffi==23.1.0",
+    "lunar-python==1.4.4",
+    "cryptography==44.0.0",
+    "pypinyin==0.53.0",
+    "apscheduler==3.11.0",
+    "pillow==11.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.4",
+    "pytest-asyncio==0.25.0",
+    "httpx==0.28.1",
+    "ruff==0.8.4",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["B008"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-ra"

@@ -1,0 +1,35 @@
+# 环境与密钥
+.env
+*.local
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+.vite/
+*.tsbuildinfo
+
+# 数据与上传
+uploads/
+backups/
+data/
+
+# 编辑器与系统
+.codebuddy/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 日志与临时验证产物
+*.log
+tests/e2e/.tmp/
+.playwright-cli/
